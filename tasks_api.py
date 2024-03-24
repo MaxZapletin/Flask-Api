@@ -31,15 +31,15 @@ def add_task():
     return json.dumps({"message": f"Task number {tasks_id} was added"}),
 
 
-# @app.route("/tasks/<int:task_id>", methods=["PUT"])
-# def update_task(task_id):
-#     data = request.get_json()
-#     for task in tasks:
-#         if task['id'] == task_id:
-#             task['title'] = data.get('title', task['title'])
-#             task['details'] = data.get('details', task['details'])
-#             return json.dumps({"message": f"Task number {task_id} was updated"}), 200
-#     return json.dumps({"message": "Task not found"}),
+@app.route("/tasks/<int:task_id>", methods=["PUT"])
+def update_task(task_id):
+    data = request.get_json()
+    for task in tasks:
+        if task['id'] == task_id:
+            task['title'] = data.get('title', task['title'])
+            task['details'] = data.get('details', task['details'])
+            return json.dumps({"message": f"Task number {task_id} was updated"}), 200
+    return json.dumps({"message": "Task not found"}),
 
 
 # @app.route("/tasks/<int:task_id>", methods=["DELETE"])
