@@ -1,24 +1,13 @@
 import json
-all_tasks_file = '/home/max/Study/task_api_server/tasks.json'
+all_tasks_file = "/home/max/Study/task_api_server/tasks.json"
 
 # 1. Read file contents
 
 
 def get_all_tasks():
     with open(all_tasks_file, "r") as file:
-        data = json.load(file)
+        json.load(file)
         return
-
-
-# entry = {'carl': 33}
-# # 1. Read file contents
-# with open(filename, "r") as file:
-#     data = json.load(file)
-# # 2. Update json object
-# data.append(entry)
-# # 3. Write json file
-# with open(filename, "w") as file:
-#     json.dump(data, file)
 
 
 # def get_all_tasks():

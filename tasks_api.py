@@ -9,7 +9,6 @@ app = Flask(__name__)
 
 @app.route("/tasks", methods=["GET"])
 def get_all_tasks():
-    #    return json.dumps({'tasks': tasks}),
     all_tasks = tasks_db.get_all_tasks()
     return json.dumps({'tasks': all_tasks})
 
