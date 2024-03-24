@@ -6,8 +6,8 @@ all_tasks_file = "/home/max/Study/task_api_server/tasks.json"
 
 def get_all_tasks():
     with open(all_tasks_file, "r") as file:
-        json.load(file)
-        return
+        all_tasks = json.load(file)
+        return all_tasks
 
 
 # def get_all_tasks():
