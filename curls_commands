@@ -1,0 +1,6 @@
+curl -X POST -H "Content-Type: application/json" -d '{"title": "Task 1", "description": "This is task 1"}' http://localhost:5000/tasks
+curl -X PUT -H "Content-Type: application/json" -d '{"title": "Updated Task", "description": "This task has been updated"}' http://localhost:5000/tasks
+curl -X DELETE http://localhost:5000/tasks/1
+curl http://localhost:5000/tasks/1
+curl http://localhost:5000/tasks
+

@@ -1,44 +1,70 @@
 import json
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
-DB_FILE = "D:\Studying_DevOps_Bar_Ilan\Flask-Api\\tasks.json"
+DB_FILE = "/home/max/Study/Flask-Api/tasks1.json"
 
 app = Flask(__name__)
-# file path is global.
-# all function works based on data and not file.
-@app.route("/tasks/int:<user_id>", methods=["PUT"])
-def update_user(user_id: int):
-    data = read_db()
-    data[str(user_id)] == request.get_json()
-    write_db(data)
-        
-@app.route("/tasks", methods=["POST"])
-def create_user(request_data: dict):
-    data = read_db()
-    user_id = str(len(data))
-    data[user_id] = request_data
-    write_db(data)
 
-@app.route("tasks/int:<user_id>", methods=["DELETE"])
-def delete_user(user_id: int):
-    data = read_db()
-    data[str(user_id)] = None
-    write_db(data)
-
-@app.route("/tasks", methods=["GET"])
-def read_users():
-    return read_db()
-
-@app.route("/tasks/int:<user_id>", methods=["POST"])
-def read_user(user_id: int):
-    users = read_db()
-    return users[str(user_id)]
 
 def read_db():
-    with open(DB_FILE, "r") as f:
-        return json.load(f)
-    
-def write_db(data: dict):
-    with open(DB_FILE, "w") as f:
-        json.dump(data, f,indent=4)
+    try:
+        with open(DB_FILE, "r") as file:
+            data = json.load(file)
+    except json.decoder.JSONDecodeError:
+        data = {}
+    return data
 
+
+def write_db(data):
+    with open(DB_FILE, "w") as file:
+        json.dump(data, file)
+
+
+@app.route("/tasks/<int:task_id>", methods=["PUT"])
+def update_task(task_id):
+    tasks = read_db()
+    if str(task_id) in tasks:
+        tasks[str(task_id)].update(request.json)
+        write_db(tasks)
+        return jsonify({"Message": "The existing task was updated"})
+    else:
+        return jsonify({"error": "Task not found"})
+
+
+@app.route("/tasks", methods=["POST"])
+def create_task():
+    tasks = read_db()
+    new_task_id = str(len(tasks))
+    new_task_data = request.json
+    tasks[new_task_id] = new_task_data
+    write_db(tasks)
+    return jsonify({"message": "The new task was created successfully", "task_id": new_task_id})
+
+
+@app.route("/tasks/<int:task_id>", methods=["DELETE"])
+def delete_task(task_id):
+    tasks = read_db()
+    if str(task_id) in tasks:
+        del tasks[str(task_id)]
+        write_db(tasks)
+        return jsonify({"message": "The task was deleted successfully"})
+    else:
+        return jsonify({"error": "Task not found"})
+
+
+@app.route("/tasks", methods=["GET"])
+def read_tasks():
+    return read_db()
+
+
+@app.route("/tasks/<int:task_id>", methods=["GET"])
+def read_task(task_id):
+    tasks = read_db()
+    if str(task_id) in tasks:
+        return jsonify(tasks[str(task_id)])
+    else:
+        return jsonify({"error": "Task not found"})
+
+
+if __name__ == '__main__':
+    app.run(port=5000)
