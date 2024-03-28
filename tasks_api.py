@@ -19,7 +19,7 @@ def get_single_task(task_id):
 
 @app.route("/tasks/<int:task_id>", methods=["GET", "POST"])
 def add_task():
-    new_task = tasks_db.post_new_task2()
+    new_task = tasks_db.post_new_task()
     return json.dumps(new_task)
 
 
