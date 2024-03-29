@@ -1,7 +1,7 @@
 import json
 from flask import Flask, request, jsonify
 
-DB_FILE = "/home/max/Study/Flask-Api/tasks1.json"
+DB_FILE = "/home/max/Study/Flask-Api/tasks.json"
 
 app = Flask(__name__)
 
