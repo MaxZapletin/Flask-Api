@@ -17,7 +17,7 @@ def read_db():
 
 def write_db(data):
     with open(DB_FILE, "w") as file:
-        json.dump(data, file)
+        json.dump(data, file, indent=4)
 
 
 @app.route("/tasks/<int:task_id>", methods=["PUT"])
